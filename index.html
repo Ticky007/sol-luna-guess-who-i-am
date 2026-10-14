@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101a35">
+  <meta name="description" content="Un duelo absurdo de personajes para dos personas a distancia. Una premisa, dos personajes y cero spoilers.">
+  <title>Azul & Ticky · Duelo de personajes</title>
+  <style>
+    :root { color-scheme: dark; --bg:#101a35; --ink:#f7f7ff; --muted:#b5c1dc; --glass:rgba(255,255,255,.075); --line:rgba(255,255,255,.13); --coral:#ff947d; --pink:#ffacd4; --sky:#85d7ff; --lime:#deffa6; --shadow:0 22px 70px rgba(4,8,25,.37) }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;min-height:100dvh;background:radial-gradient(circle at 8% 12%,#2d3269 0%,transparent 32%),radial-gradient(circle at 90% 8%,#54365e 0%,transparent 32%),radial-gradient(circle at 65% 90%,#17445f 0%,transparent 33%),var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+    .wrap{width:min(100% - 34px,850px);margin:auto;min-height:100dvh;display:flex;flex-direction:column}
+    header{display:flex;justify-content:space-between;align-items:center;padding:30px 0 14px;gap:12px}
+    .brand{font-weight:900;letter-spacing:.03em;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:9px}
+    .brand .star{display:grid;place-items:center;width:30px;height:30px;background:var(--pink);color:#25172c;border-radius:10px;transform:rotate(-9deg)}
+    .pill{font-size:12px;font-weight:700;color:#dce5f9;border:1px solid var(--line);padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.05)}
+    main{flex:1;padding:14px 0 38px}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(37px,7.2vw,70px);letter-spacing:-.06em;line-height:1.03;margin-bottom:18px;font-weight:950}
+    h1 em{font-style:normal;color:var(--pink)}
+    .subtitle{font-size:clamp(15px,2.5vw,19px);line-height:1.5;max-width:620px;color:var(--muted)}
+    .hero{padding:32px 0 20px;position:relative}
+    .kicker{display:inline-flex;align-items:center;gap:8px;text-transform:uppercase;font-size:11px;font-weight:850;letter-spacing:.16em;color:var(--lime);margin-bottom:16px}
+    .bubble{position:absolute;right:25px;top:25px;transform:rotate(9deg);font-size:50px;filter:drop-shadow(0 12px 16px #03091880)}
+    .panel{background:var(--glass);border:1px solid var(--line);border-radius:25px;box-shadow:var(--shadow);backdrop-filter:blur(16px);padding:clamp(21px,4vw,35px);margin:16px 0}
+    .panel h2{font-size:clamp(23px,4.4vw,29px);line-height:1.2;letter-spacing:-.03em;margin-bottom:8px}
+    .panel p{color:var(--muted)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .label{font-weight:750;font-size:13px;letter-spacing:.01em;display:block;margin-bottom:9px;color:#edf1fe}
+    .field{min-width:0;flex:1}
+    input[type=text],input[type=number]{width:100%;border:1px solid rgba(255,255,255,.22);background:#0a1330;border-radius:14px;padding:14px 15px;color:#fff;font-weight:650;transition:border .2s}
+    input::placeholder{color:#8090b5}
+    .roles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 23px}
+    .role{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;border:2px solid var(--line);background:rgba(15,26,53,.7);color:#f8f8ff;border-radius:18px;padding:17px 18px;transition:transform .15s,border-color .15s,background .15s}
+    .role:hover{transform:translateY(-2px)}
+    .role[data-selected=true]{border-color:var(--pink);background:linear-gradient(160deg,rgba(255,172,212,.2),rgba(133,215,255,.1))}
+    .role .icon{font-size:27px}
+    .role strong{font-size:19px;letter-spacing:-.02em}
+    .role small{color:var(--muted);font-size:12px}
+    .settings{display:grid;grid-template-columns:1fr 145px;gap:14px;margin:15px 0}
+    .setting-foot{color:var(--muted);font-size:12px;margin:8px 0 0}
+    .btn{border:0;border-radius:15px;min-height:49px;padding:13px 18px;font-weight:850;letter-spacing:-.01em;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,filter .15s}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.045)}
+    .primary{background:linear-gradient(135deg,var(--pink),var(--coral));color:#25172c;box-shadow:0 9px 25px rgba(255,148,125,.18)}
+    .secondary{background:rgba(255,255,255,.09);border:1px solid var(--line);color:#fff}
+    .flat{background:transparent;color:#dce3ff;border:1px solid var(--line)}
+    .full{width:100%}
+    .button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}
+    .button-row > .btn{flex:1}
+    .how{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:20px 0 5px}
+    .how > div{padding:18px 17px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035)}
+    .how .step{font-size:25px;margin-bottom:10px}
+    .how strong{display:block;font-size:14px}
+    .how span{display:block;color:var(--muted);font-size:12px;line-height:1.55;margin-top:4px}
+    .hidden{display:none !important}
+    .stage-wrap{max-width:660px;margin:0 auto}
+    .game-header{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:15px 0 5px;flex-wrap:wrap}
+    .game-title{font-size:12px;letter-spacing:.1em;font-weight:850;color:#c9d6f5;text-transform:uppercase}
+    .progress{display:flex;gap:6px;align-items:center}
+    .progress i{display:block;width:26px;height:5px;background:#536382;border-radius:5px}
+    .progress i.on{background:var(--pink)}
+    .big-center{text-align:center;padding:26px 0 20px}
+    .big-icon{font-size:clamp(70px,18vw,115px);display:inline-block;margin-bottom:11px;filter:drop-shadow(0 15px 20px #0003)}
+    .eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:.17em;color:var(--sky);font-weight:900;margin-bottom:13px}
+    .big-center h2{font-size:clamp(31px,6.7vw,49px);line-height:1.1;letter-spacing:-.055em;margin-bottom:14px}
+    .big-center .intro{color:var(--muted);max-width:460px;margin:auto;font-size:16px}
+    .prompt{background:linear-gradient(155deg,rgba(133,215,255,.16),rgba(255,172,212,.12));border:1px solid rgba(133,215,255,.35);border-radius:21px;padding:26px 23px;margin:20px 0;text-align:center}
+    .prompt .prompt-label{font-size:12px;text-transform:uppercase;color:#ceeafa;letter-spacing:.16em;font-weight:850}
+    .prompt strong{display:block;margin:14px 0 3px;font-size:clamp(25px,5.4vw,37px);line-height:1.19;letter-spacing:-.03em}
+    .prompt .note{font-size:12px;color:var(--muted);margin:12px 0 0}
+    .card-stage{padding:16px 0 8px}
+    .person-card{min-height:315px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.17);background:radial-gradient(circle at 50% 25%,rgba(255,172,212,.35),transparent 57%),linear-gradient(155deg,#483f78 0%,#224b6c 100%);box-shadow:0 20px 50px rgba(3,9,27,.35);border-radius:24px;padding:32px 22px}
+    .person-card:before,.person-card:after{content:'✦';position:absolute;font-size:22px;color:#fbe1a7;top:30px;left:28px}
+    .person-card:after{top:auto;left:auto;bottom:30px;right:33px;font-size:30px;color:#a8e3ff}
+    .person-card .emoji{font-size:clamp(80px,18vw,124px);line-height:1.2;filter:drop-shadow(0 10px 14px #070e2570)}
+    .person-card .to-whom{font-size:12px;text-transform:uppercase;letter-spacing:.18em;font-weight:850;color:#e3ecff;margin-top:12px}
+    .person-card .name{font-size:clamp(32px,6.7vw,49px);letter-spacing:-.05em;line-height:1.12;font-weight:950;margin:10px 0 9px;text-wrap:balance}
+    .person-card .medium{color:#d4e6ff;font-size:13px;font-weight:700}
+    .guard{text-align:center;color:var(--lime);font-size:13px;font-weight:750;margin:17px 0 7px}
+    .countdown{position:fixed;inset:0;background:rgba(9,15,35,.96);z-index:3;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+    .countdown strong{font-size:clamp(140px,36vw,300px);line-height:1;color:var(--pink);letter-spacing:-.06em;filter:drop-shadow(0 0 26px #ffacd44a)}
+    .countdown p{font-weight:750;color:#dbeaff;font-size:20px;margin-top:20px}
+    .reveal-both{background:rgba(11,22,49,.72);border:1px solid var(--line);border-radius:19px;padding:18px;margin-top:16px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    .answer{text-align:center;padding:12px;border-radius:14px;background:rgba(255,255,255,.055)}
+    .answer .emoji{font-size:42px}
+    .answer strong{display:block;font-size:15px;margin-top:5px}
+    .answer span{font-size:12px;color:var(--muted)}
+    .notice{font-size:13px;line-height:1.5;color:#dce6fb;background:rgba(222,255,166,.08);border:1px solid rgba(222,255,166,.16);border-radius:14px;padding:13px 15px;margin:16px 0 0}
+    footer{padding:20px 0 25px;border-top:1px solid var(--line);font-size:11px;color:#8b9cbe;text-align:center}
+    #toast{position:fixed;left:50%;bottom:27px;transform:translateX(-50%);background:#ecf5ff;color:#111a34;border-radius:14px;box-shadow:0 12px 35px #070c2059;padding:12px 20px;font-size:13px;font-weight:750;z-index:4;max-width:calc(100% - 36px);text-align:center}
+    @media(max-width:600px){.bubble{font-size:37px;top:12px;right:5px}.hero{padding-top:25px}.how{grid-template-columns:1fr}.how>div{display:grid;grid-template-columns:43px 1fr;gap:0 9px;padding:13px}.how .step{grid-row:span 2;font-size:24px;margin-bottom:0}.how span{margin-top:0}.roles{gap:9px}.role{padding:14px}.role strong{font-size:16px}.settings{grid-template-columns:1fr 116px;gap:9px}.button-row>.btn{flex-basis:100%}.pill{font-size:11px}.wrap{width:min(100% - 26px,850px)}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="star">✦</span> AZUL <span style="color:var(--pink)">&</span> TICKY</div>
+    <span class="pill" id="dateBadge">🎲 Un duelo cada día</span>
+  </header>
+  <main>
+    <section id="setup">
+      <div class="hero">
+        <div class="kicker">✳ EL EXPERIMENTO MÁS RANDOM DEL DÍA</div>
+        <span class="bubble" aria-hidden="true">🎩</span>
+        <h1>Dos personajes.<br><em>Una conexión.</em><br>Cero sentido.</h1>
+        <p class="subtitle">De un M&M a un personaje de anime, de un meme a una celebridad. Adivina quién eres sin mirar tu propia carta.</p>
+      </div>
+      <div class="panel">
+        <h2>¿Quién está jugando?</h2>
+        <p>Selecciona tu nombre. Solo verás el personaje que tiene que adivinar la otra persona.</p>
+        <div class="roles" role="group" aria-label="Elegir jugador">
+          <button class="role" type="button" id="chooseTicky" aria-pressed="false"><span class="icon">🧡</span><strong>Soy Ticky</strong><small>Veré la carta de Azul</small></button>
+          <button class="role" type="button" id="chooseAzul" aria-pressed="false"><span class="icon">💙</span><strong>Soy Azul</strong><small>Veré la carta de Ticky</small></button>
+        </div>
+        <div class="settings">
+          <div class="field"><label class="label" for="room">Código de su sala</label><input type="text" id="room" maxlength="35" placeholder="ej. azulitos" autocapitalize="none" autocomplete="off" spellcheck="false"></div>
+          <div class="field"><label class="label" for="round">Ronda del día</label><input type="number" min="1" max="99" id="round" value="1" inputmode="numeric"></div>
+        </div>
+        <p class="setting-foot">Para obtener los mismos personajes, usen el mismo código, la misma ronda y el mismo día. El día se calcula según el horario de Monterrey para ambos.</p>
+        <div class="button-row"><button class="btn primary full" id="play" type="button">✨ Preparar nuestra partida</button><button class="btn secondary" id="copy" type="button">🔗 Copiar invitación</button></div>
+      </div>
+      <div class="how" aria-label="Instrucciones">
+        <div><div class="step">🔒</div><strong>1. Cada quien entra</strong><span>Tú eliges Ticky y Azul elige Azul, desde sus dispositivos.</span></div>
+        <div><div class="step">🙈</div><strong>2. Ojos cerrados</strong><span>Escuchen la premisa y esperen la cuenta regresiva.</span></div>
+        <div><div class="step">😂</div><strong>3. Adivinen</strong><span>Al abrir los ojos, cada uno solo puede ver la carta de su pareja.</span></div>
+      </div>
+    </section>
+    <section id="game" class="stage-wrap hidden" aria-live="polite">
+      <div class="game-header"><div class="game-title" id="gameMeta">DUELO DIARIO</div><div class="progress" aria-label="Progreso"><i id="dot1"></i><i id="dot2"></i><i id="dot3"></i></div></div>
+      <div id="ready" class="hidden">
+        <div class="panel big-center">
+          <div class="big-icon" aria-hidden="true">🙈</div>
+          <div class="eyebrow">Paso 1 de 3 · preparar</div>
+          <h2>¡No espíen!</h2>
+          <p class="intro">Entren a su llamada, tengan la misma sala y ronda. Ahora toca conocer lo que tienen en común.</p>
+          <div class="notice">Aún no se muestra ningún personaje. Cuando estén listos, continúen a la premisa.</div>
+          <div class="button-row"><button class="btn primary full" type="button" id="toPrompt">🎩 Ver nuestra premisa</button><button class="btn flat" type="button" id="backHome1">← Ajustar sala</button></div>
+        </div>
+      </div>
+      <div id="premise" class="hidden">
+        <div class="panel">
+          <div class="big-center" style="padding-bottom:2px"><span class="big-icon" aria-hidden="true">🎩</span><div class="eyebrow">Paso 2 de 3 · la conexión</div><h2>Cierren los ojos…</h2><p class="intro">Una persona puede leer la premisa en voz alta, o escucharla con el botón.</p></div>
+          <div class="prompt"><span class="prompt-label">LA PREMISA DE HOY</span><strong id="promptText">Ambos...</strong><p class="note">Esta pista es verdadera para los dos personajes.</p></div>
+          <div class="button-row"><button class="btn secondary" type="button" id="speak">🔊 Escuchar premisa</button><button class="btn primary" type="button" id="showCard">👀 Cuenta regresiva y abrir los ojos</button></div>
+          <div class="button-row"><button class="btn flat full" type="button" id="backReady">← Regresar</button></div>
+        </div>
+      </div>
+      <div id="revealed" class="hidden">
+        <div class="panel">
+          <div class="eyebrow" style="text-align:center">Paso 3 de 3 · ¡a adivinar!</div>
+          <div class="prompt" style="padding:12px 16px;margin:13px 0 17px"><span class="prompt-label">SU CONEXIÓN</span><strong id="smallPrompt" style="font-size:clamp(18px,4vw,23px);margin:7px 0">Ambos...</strong></div>
+          <div class="card-stage"><div class="person-card"><div class="emoji" id="characterEmoji" aria-hidden="true">🎩</div><div class="to-whom" id="toWhom">LA CARTA DE AZUL</div><div class="name" id="characterName">¿Quién será?</div><div class="medium" id="characterMedium">Personaje</div></div></div>
+          <div class="guard" id="guard">🔒 Tu propio personaje está oculto.</div>
+          <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:0">Dense pistas, hagan preguntas y ríanse de lo improbable del dúo.</p>
+          <div class="button-row"><button class="btn secondary" type="button" id="endRound">🏁 Terminamos · ver ambas cartas</button><button class="btn flat" type="button" id="toHome">⚙️ Sala / ronda</button></div>
+          <div id="solutions" class="reveal-both hidden"><div class="eyebrow" style="text-align:center;margin:0 0 13px">La revelación final</div><div class="answers"><div class="answer"><div class="emoji" id="solutionEmojiA">?</div><strong id="solutionNameA">?</strong><span>La carta de Ticky</span></div><div class="answer"><div class="emoji" id="solutionEmojiB">?</div><strong id="solutionNameB">?</strong><span>La carta de Azul</span></div></div><p id="explanation" style="font-size:12px;text-align:center;margin:13px 0 0">Ambos...</p><button class="btn primary full" type="button" id="nextRound" style="margin-top:16px">🎲 Otra ronda (los dos cambian a la siguiente)</button></div>
+        </div>
+      </div>
+    </section>
+    <div id="countdown" class="countdown hidden" aria-live="assertive"><strong id="countValue">3</strong><p>¡Abrir los ojos en…!</p></div>
+    <div id="toast" class="hidden" role="status"></div>
+  </main>
+  <footer>Hecho para reírse juntos, incluso a kilómetros de distancia. ✦ No requiere cuentas, pagos ni servidor.</footer>
+</div>
+<script>
+'use strict';
+/* Cada personaje incluye nombre, emoji ilustrativo, medio, saga y características verdaderas.
+   No hay datos personales, publicidad ni llamadas externas: funciona incluso sin internet. */
+const rosterRaw = [
+  ['Shrek','🧌','Película','Shrek','verde,fuerza,meme,realeza'],
+  ['Yoda','👽','Película','Star Wars','verde,pequeno,magia,meme,espada'],
+  ['Hulk','💪','Cómic / película','Marvel Hulk','verde,fuerza'],
+  ['Mike Wazowski','👁️','Película animada','Monsters Inc','verde,pequeno,monstruo,meme'],
+  ['El Grinch','💚','Película / libro','Grinch','verde,monstruo,meme'],
+  ['Rana René (Kermit)','🐸','Televisión / marioneta','Muppets','verde,animal,meme'],
+  ['M&M verde','🟢','Mascota de marca','M&M','verde,pequeno,meme'],
+  ['Piccolo','🟩','Anime','Dragon Ball','verde,fuerza,magia'],
+  ['Duolingo (Duo)','🦉','Mascota de app','Duolingo','verde,animal,meme'],
+  ['Plankton','🦠','Caricatura','Bob Esponja','verde,pequeno,acuatico,villano'],
+  ['Luigi','🟢','Videojuego','Super Mario','verde,sombrero,bigote,heroe'],
+  ['Loki','🪄','Cómic / película','Marvel Loki','verde,magia,villano'],
+  ['Peter Pan','🧚','Película / libro','Peter Pan','verde,sombrero,vuela,espada'],
+  ['Master Chief','🪖','Videojuego','Halo','verde,heroe'],
+  ['Bob Esponja','🧽','Caricatura','Bob Esponja','amarillo,acuatico,meme'],
+  ['Pikachu','⚡','Anime / videojuego','Pokémon','amarillo,animal,pequeno,meme'],
+  ['Homero Simpson','🍩','Caricatura','Los Simpson','amarillo,meme'],
+  ['Bart Simpson','🛹','Caricatura','Los Simpson','amarillo,meme,pequeno'],
+  ['Minion','🥽','Película animada','Mi villano favorito','amarillo,pequeno,lentes,meme'],
+  ['Pac-Man','🟡','Videojuego','Pac-Man','amarillo,pequeno,meme'],
+  ['Piolín','🐤','Caricatura','Looney Tunes','amarillo,animal,pequeno'],
+  ['Winnie Pooh','🍯','Caricatura / libro','Winnie Pooh','amarillo,animal,meme'],
+  ['M&M amarillo','🟡','Mascota de marca','M&M','amarillo,pequeno,meme'],
+  ['Jake el perro','🐶','Caricatura','Hora de aventura','amarillo,animal,fuerza'],
+  ['Súper Sonic','🌟','Videojuego','Sonic','amarillo,animal,vuela,fuerza'],
+  ['Bob el Constructor','👷','Caricatura','Bob el Constructor','amarillo,sombrero'],
+  ['Elmo','❤️','Televisión / marioneta','Plaza Sésamo','rojo,pequeno,meme'],
+  ['M&M rojo','🔴','Mascota de marca','M&M','rojo,pequeno,meme'],
+  ['Spider-Man','🕷️','Cómic / película','Marvel Spider-Man','rojo,fuerza,heroe,meme'],
+  ['Mario','🍄','Videojuego','Super Mario','rojo,sombrero,bigote,heroe,meme'],
+  ['Deadpool','⚔️','Cómic / película','Marvel Deadpool','rojo,espada,heroe,meme'],
+  ['Flash','⚡','Cómic / serie','DC Flash','rojo,heroe'],
+  ['Clifford','🐕','Caricatura / libro','Clifford','rojo,animal,fuerza'],
+  ['Knuckles','🥊','Videojuego','Sonic','rojo,animal,fuerza'],
+  ['Rayo McQueen','🏎️','Película animada','Cars','rojo,heroe,meme'],
+  ['Iron Man','🤖','Cómic / película','Marvel Iron Man','rojo,robot,vuela,heroe,bigote'],
+  ['Papá Noel','🎅','Tradición popular','Navidad','rojo,sombrero,bigote,vuela,meme'],
+  ['Jessie la vaquera','🤠','Película animada','Toy Story','rojo,sombrero,heroe'],
+  ['Sonic','🦔','Videojuego','Sonic','azul,animal,heroe,meme'],
+  ['Stitch','👽','Película animada','Lilo y Stitch','azul,pequeno,animal,fuerza,meme'],
+  ['Bluey','🐶','Caricatura','Bluey','azul,animal,pequeno'],
+  ['Pitufo bromista','🧢','Caricatura','Los Pitufos','azul,pequeno'],
+  ['Doraemon','🐱','Anime','Doraemon','azul,animal,robot,pequeno'],
+  ['Genio de Aladdín','🧞','Película animada','Aladdín','azul,magia,vuela,fuerza,meme'],
+  ['Monstruo Comegalletas','🍪','Televisión / marioneta','Plaza Sésamo','azul,monstruo,meme'],
+  ['Megamente','🧠','Película animada','Megamente','azul,villano,meme'],
+  ['Tristeza (Intensa-Mente)','😢','Película animada','Intensa-Mente','azul,lentes,pequeno'],
+  ['Dory','🐟','Película animada','Buscando a Nemo','azul,animal,acuatico'],
+  ['Mordecai','🐦','Caricatura','Un show más','azul,animal,meme'],
+  ['Sulley','🦣','Película animada','Monsters Inc','azul,monstruo,fuerza'],
+  ['Hades','🔥','Película animada','Hércules','azul,villano,magia,meme'],
+  ['M&M azul','🔵','Mascota de marca','M&M','azul,pequeno,meme'],
+  ['Bugs Bunny','🐰','Caricatura','Looney Tunes','animal,meme'],
+  ['Tony Tony Chopper','🦌','Anime','One Piece','animal,medicina,sombrero,pequeno,heroe'],
+  ['Perry el ornitorrinco','🕵️','Caricatura','Phineas y Ferb','animal,sombrero,heroe'],
+  ['Scooby-Doo','🐕','Caricatura','Scooby-Doo','animal,meme'],
+  ['Snoopy','🐶','Caricatura / cómic','Peanuts','animal,meme'],
+  ['Garfield','🐈','Caricatura / cómic','Garfield','animal,meme'],
+  ['El Gato con Botas','🐱','Película animada','Shrek / Gato con Botas','animal,sombrero,espada,heroe,meme'],
+  ['Burro (Shrek)','🫏','Película animada','Shrek','animal,meme'],
+  ['Po (Kung Fu Panda)','🐼','Película animada','Kung Fu Panda','animal,heroe,fuerza,meme'],
+  ['Mickey Mouse','🐭','Caricatura','Disney Mickey','animal,pequeno,magia'],
+  ['Rocket Raccoon','🦝','Cómic / película','Guardianes de la Galaxia','animal,pequeno,heroe'],
+  ['Remy','🐀','Película animada','Ratatouille','animal,pequeno'],
+  ['Jerry','🐭','Caricatura','Tom y Jerry','animal,pequeno'],
+  ['Pato Lucas','🦆','Caricatura','Looney Tunes','animal,meme'],
+  ['Donald Duck','🦆','Caricatura','Disney Donald','animal,meme'],
+  ['Dumbo','🐘','Película animada','Dumbo','animal,vuela'],
+  ['Chimuelo (Toothless)','🐉','Película animada','Cómo entrenar a tu dragón','animal,vuela,heroe'],
+  ['Appa','🦬','Anime / serie','Avatar: el último maestro aire','animal,vuela'],
+  ['Dragón Charizard','🐲','Anime / videojuego','Pokémon','animal,vuela'],
+  ['Barry B. Benson','🐝','Película animada','Bee Movie','animal,vuela,meme'],
+  ['Donkey Kong','🦍','Videojuego','Donkey Kong','animal,fuerza'],
+  ['Paddington','🐻','Película / libro','Paddington','animal,sombrero'],
+  ['Indy (Indiana Jones)','🤠','Película','Indiana Jones','sombrero,heroe'],
+  ['Woody','🤠','Película animada','Toy Story','sombrero,heroe'],
+  ['Walter White (Heisenberg)','🧪','Serie','Breaking Bad','sombrero,lentes,bigote,villano,meme'],
+  ['Freddy Krueger','🧤','Película','Pesadilla en Elm Street','sombrero,villano,terror'],
+  ['Carmen Sandiego','🕵️‍♀️','Videojuego / caricatura','Carmen Sandiego','sombrero'],
+  ['Sherlock Holmes','🔎','Literatura / serie','Sherlock Holmes','sombrero,heroe'],
+  ['Jack Sparrow','🏴‍☠️','Película','Piratas del Caribe','sombrero,espada,meme'],
+  ['Ash Ketchum','🧢','Anime','Pokémon','sombrero,heroe'],
+  ['El Gato en el Sombrero','🎩','Literatura / película','Dr Seuss','sombrero,animal,meme'],
+  ['Willy Wonka','🍫','Película / libro','Charlie y la fábrica de chocolate','sombrero,meme'],
+  ['Wario','🟡','Videojuego','Super Mario','sombrero,bigote,villano'],
+  ['Abraham Lincoln','🎩','Persona histórica','Historia EE.UU.','sombrero'],
+  ['Napoleón Bonaparte','🪖','Persona histórica','Historia Francia','sombrero,realeza'],
+  ['El Tío Rico McPato','🦆','Caricatura','Patoaventuras','sombrero,animal,lentes'],
+  ['Harry Potter','⚡','Literatura / película','Harry Potter','lentes,magia,heroe'],
+  ['Velma Dinkley','🔍','Caricatura','Scooby-Doo','lentes,heroe'],
+  ['Edna Moda','👓','Película animada','Los Increíbles','lentes,meme,pequeno'],
+  ['Clark Kent','👓','Cómic / película','Superman','lentes,fuerza,vuela,heroe'],
+  ['Johnny Bravo','🕶️','Caricatura','Johnny Bravo','lentes,meme,fuerza'],
+  ['Gandhi','🕊️','Persona histórica','Historia India','lentes'],
+  ['Tina Belcher','👓','Serie animada','Bob’s Burgers','lentes,meme'],
+  ['Daria','👓','Serie animada','Daria','lentes,meme'],
+  ['Dexter (El laboratorio)','🧪','Caricatura','Laboratorio de Dexter','lentes,pequeno'],
+  ['Carl Fredricksen','🎈','Película animada','Up','lentes'],
+  ['Peter Griffin','🍺','Caricatura','Padre de familia','lentes,meme'],
+  ['Ned Flanders','👨','Caricatura','Los Simpson','bigote,lentes,meme'],
+  ['Dr. Eggman','🥚','Videojuego','Sonic','bigote,lentes,villano,meme'],
+  ['Hombre del Monopoly','💰','Mascota de marca','Monopoly','bigote,sombrero'],
+  ['Ron Swanson','🥓','Serie','Parks and Recreation','bigote,meme'],
+  ['Borat','🧔','Película','Borat','bigote,meme'],
+  ['Freddie Mercury','🎤','Persona real / música','Queen','bigote,meme'],
+  ['Salvador Dalí','🎨','Persona histórica','Arte','bigote,meme'],
+  ['Albert Einstein','🧠','Persona histórica','Ciencia','bigote,meme'],
+  ['Charlie Chaplin','🎩','Persona histórica / cine','Chaplin','bigote,sombrero,meme'],
+  ['Omni-Man','🦸','Serie animada / cómic','Invincible','bigote,fuerza,vuela,villano,meme'],
+  ['Dr. Strange','🪄','Cómic / película','Marvel Doctor Strange','bigote,medicina,magia,vuela,heroe'],
+  ['Tony Stark','🦾','Cómic / película','Marvel Iron Man','bigote,robot,vuela,heroe,meme'],
+  ['Tío Iroh','🍵','Anime / serie','Avatar: el último maestro aire','bigote,magia'],
+  ['Hércules (Disney)','🏛️','Película animada','Hércules','fuerza,heroe'],
+  ['Goku','🥋','Anime','Dragon Ball','vuela,fuerza,heroe,meme'],
+  ['Superman','🦸','Cómic / película','Superman','vuela,fuerza,heroe'],
+  ['Campanita','🧚‍♀️','Película / libro','Peter Pan','vuela,magia,pequeno'],
+  ['Baymax','🩺','Película animada','Big Hero 6','robot,vuela,medicina,heroe,fuerza'],
+  ['Mary Poppins','☂️','Película / libro','Mary Poppins','vuela,magia'],
+  ['Hada Madrina','🪄','Película animada','Cenicienta','vuela,magia'],
+  ['Kirby','🌸','Videojuego','Kirby','pequeno,vuela,heroe,fuerza,meme'],
+  ['Elsa','❄️','Película animada','Frozen','magia,realeza,heroe'],
+  ['Merlín','🧙','Literatura / película','Leyenda Artúrica','magia'],
+  ['Gandalf','🧙‍♂️','Literatura / película','El Señor de los Anillos','magia,espada,heroe'],
+  ['Bruja Escarlata','🔮','Cómic / película','Marvel Wanda','magia,vuela'],
+  ['Sailor Moon','🌙','Anime','Sailor Moon','magia,heroe'],
+  ['Sabrina Spellman','🐈','Serie','Sabrina','magia'],
+  ['Maléfica','🖤','Película animada','La Bella Durmiente','magia,vuela,villano'],
+  ['Hermione Granger','📚','Literatura / película','Harry Potter','magia,heroe'],
+  ['Mickey aprendiz de brujo','🪄','Película animada','Fantasía Disney','animal,magia,pequeno'],
+  ['Zelda','👑','Videojuego','The Legend of Zelda','realeza,magia,heroe'],
+  ['Link','🗡️','Videojuego','The Legend of Zelda','espada,sombrero,heroe,verde'],
+  ['Geralt de Rivia','🐺','Videojuego / literatura','The Witcher','espada,magia,heroe'],
+  ['Roronoa Zoro','⚔️','Anime','One Piece','espada,heroe'],
+  ['Samurái Jack','🗡️','Caricatura','Samurai Jack','espada,heroe'],
+  ['Tanjiro Kamado','🗡️','Anime','Demon Slayer','espada,heroe'],
+  ['Kirito','⚔️','Anime','Sword Art Online','espada,heroe'],
+  ['Finn el humano','⚔️','Caricatura','Hora de aventura','espada,heroe'],
+  ['He-Man','⚔️','Caricatura','Masters of the Universe','espada,fuerza,heroe'],
+  ['Leonardo (Tortugas Ninja)','🐢','Cómic / caricatura','Tortugas Ninja','espada,animal,heroe,verde'],
+  ['Mulán','🗡️','Película animada','Mulán','espada,heroe'],
+  ['Cloud Strife','⚔️','Videojuego','Final Fantasy VII','espada,heroe'],
+  ['Inigo Montoya','⚔️','Película / libro','La princesa prometida','espada,heroe'],
+  ['Jesucristo','🕊️','Figura religiosa e histórica','Tradición cristiana','medicina'],
+  ['Dr. House','🩺','Serie','House M.D.','medicina'],
+  ['Meredith Grey','🩺','Serie','Grey’s Anatomy','medicina'],
+  ['Dr. Mario','💊','Videojuego','Dr. Mario','medicina,bigote'],
+  ['Enfermera Joy','💗','Anime / videojuego','Pokémon','medicina'],
+  ['Mercy','🪽','Videojuego','Overwatch','medicina,vuela,heroe'],
+  ['Zoidberg','🦀','Serie animada','Futurama','medicina,acuatico'],
+  ['Doctora Juguetes','🩺','Caricatura','Doc McStuffins','medicina,pequeno'],
+  ['Doctor Dolittle','🐕','Película / libro','Dr. Dolittle','medicina'],
+  ['Florence Nightingale','🕯️','Persona histórica','Historia medicina','medicina'],
+  ['Hipócrates','📜','Persona histórica','Historia medicina','medicina'],
+  ['Dr. Simi','🧸','Mascota de farmacia','Farmacias Similares','medicina,meme'],
+  ['Princesa Peach','👑','Videojuego','Super Mario','realeza,heroe'],
+  ['Princesa Fiona','👑','Película animada','Shrek','realeza,fuerza,heroe'],
+  ['Rey Julien','👑','Película animada','Madagascar','realeza,animal,meme'],
+  ['Rey Dedede','👑','Videojuego','Kirby','realeza,animal,fuerza'],
+  ['Bowser','🐢','Videojuego','Super Mario','realeza,villano,fuerza,animal'],
+  ['Mufasa','🦁','Película animada','El Rey León','realeza,animal'],
+  ['Simba','🦁','Película animada','El Rey León','realeza,animal,heroe'],
+  ['Rey Arturo','👑','Leyenda / literatura','Leyenda Artúrica','realeza,espada,heroe'],
+  ['Isabel II','👑','Persona histórica','Realeza británica','realeza'],
+  ['Cleopatra','🐍','Persona histórica','Egipto','realeza'],
+  ['María Antonieta','🍰','Persona histórica','Francia','realeza'],
+  ['Blancanieves','🍎','Película / cuento','Blancanieves','realeza,heroe'],
+  ['Mujer Maravilla','⚔️','Cómic / película','DC Wonder Woman','realeza,espada,fuerza,heroe'],
+  ['T’Challa (Black Panther)','🐈‍⬛','Cómic / película','Marvel Black Panther','realeza,fuerza,heroe'],
+  ['Ariel','🧜‍♀️','Película animada','La Sirenita','realeza,acuatico'],
+  ['Princesa Chicle','🍬','Caricatura','Hora de aventura','realeza'],
+  ['El Joker','🃏','Cómic / película','Batman','villano,meme'],
+  ['Thanos','🟣','Cómic / película','Marvel Avengers','villano,fuerza,meme'],
+  ['Voldemort','🐍','Literatura / película','Harry Potter','villano,magia'],
+  ['Gru','🧣','Película animada','Mi villano favorito','villano,meme'],
+  ['Jafar','🐍','Película animada','Aladdín','villano,magia'],
+  ['Cruella de Vil','🖤','Película / libro','101 dálmatas','villano'],
+  ['Úrsula','🐙','Película animada','La Sirenita','villano,magia,acuatico'],
+  ['Síndrome','🦹','Película animada','Los Increíbles','villano'],
+  ['Dr. Doofenshmirtz','🧪','Caricatura','Phineas y Ferb','villano,meme'],
+  ['Scar','🦁','Película animada','El Rey León','villano,animal'],
+  ['Jessie (Equipo Rocket)','🌹','Anime','Pokémon','villano'],
+  ['Azula','🔥','Serie animada','Avatar: el último maestro aire','villano,magia,realeza'],
+  ['Pennywise','🎈','Película / libro','IT','villano,terror,meme'],
+  ['Jason Voorhees','🔪','Película','Viernes 13','villano,terror'],
+  ['Michael Myers','🎃','Película','Halloween','villano,terror'],
+  ['Ghostface','👻','Película','Scream','villano,terror,meme'],
+  ['Chucky','🪆','Película','Chucky','villano,terror,pequeno,meme'],
+  ['Slenderman','👤','Leyenda de internet','Creepypasta','villano,terror,meme'],
+  ['Beetlejuice','🪲','Película','Beetlejuice','terror,meme'],
+  ['Jack Skellington','💀','Película animada','El extraño mundo de Jack','terror,heroe'],
+  ['Vecna','💀','Serie','Stranger Things','villano,terror,magia'],
+  ['Coraline','🗝️','Película animada','Coraline','terror,heroe'],
+  ['Aquaman','🔱','Cómic / película','DC Aquaman','acuatico,heroe,fuerza,realeza'],
+  ['Nemo','🐠','Película animada','Buscando a Nemo','acuatico,animal,pequeno'],
+  ['Patricio Estrella','⭐','Caricatura','Bob Esponja','acuatico,meme'],
+  ['Don Cangrejo','🦀','Caricatura','Bob Esponja','acuatico,animal,meme'],
+  ['Calamardo','🐙','Caricatura','Bob Esponja','acuatico,animal,meme'],
+  ['Rey Tritón','🔱','Película animada','La Sirenita','acuatico,realeza,fuerza'],
+  ['Sebastián','🦀','Película animada','La Sirenita','acuatico,animal,pequeno'],
+  ['Popeye','⚓','Caricatura','Popeye','acuatico,fuerza,heroe'],
+  ['Godzilla','🦖','Película','Godzilla','monstruo,fuerza,meme'],
+  ['Saitama','🥊','Anime','One Punch Man','fuerza,heroe,meme'],
+  ['Ralph el Demoledor','🧱','Película animada','Ralph el Demoledor','fuerza,heroe'],
+  ['Obélix','🪨','Cómic / película','Astérix','fuerza,heroe'],
+  ['Kratos','🪓','Videojuego','God of War','fuerza,heroe'],
+  ['Thor','🔨','Cómic / película','Marvel Thor','fuerza,vuela,heroe'],
+  ['Luisa Madrigal','💪','Película animada','Encanto','fuerza,heroe'],
+  ['Terminator T-800','🤖','Película','Terminator','robot,fuerza'],
+  ['WALL·E','🤖','Película animada','WALL-E','robot,pequeno,heroe'],
+  ['Bender','🤖','Serie animada','Futurama','robot,meme'],
+  ['Optimus Prime','🚛','Película / caricatura','Transformers','robot,fuerza,heroe'],
+  ['Astro Boy','🤖','Anime','Astro Boy','robot,vuela,heroe'],
+  ['RoboCop','🦾','Película','RoboCop','robot,fuerza,heroe'],
+  ['Claptrap','🤖','Videojuego','Borderlands','robot,pequeno,meme'],
+  ['El hombre de hojalata','🪓','Película / libro','Mago de Oz','robot,heroe'],
+  ['La Rana Loca (Crazy Frog)','🐸','Meme musical','Crazy Frog','animal,azul,meme'],
+  ['Doge','🐕','Meme de internet','Doge','animal,meme'],
+  ['Cheems','🐕','Meme de internet','Cheems','animal,meme'],
+  ['Nyan Cat','🐈','Meme de internet','Nyan Cat','animal,vuela,meme'],
+  ['Trollface','😏','Meme de internet','Trollface','meme'],
+  ['Rick Astley','🎤','Persona real / música','Rickroll','meme'],
+  ['Dwayne «La Roca» Johnson','🪨','Persona real / cine','The Rock','fuerza,meme'],
+  ['Nicolas Cage','🎬','Persona real / cine','Nicolas Cage','meme'],
+  ['John Cena','🫥','Persona real / lucha','WWE','fuerza,meme'],
+  ['Michael Scott','📎','Serie','The Office','meme'],
+  ['Pedro Pascal','🥺','Persona real / cine','Pedro Pascal','meme'],
+  ['Capibara de los memes','🦫','Animal / meme','Capibara','animal,meme'],
+  ['M&M naranja','🟠','Mascota de marca','M&M','pequeno,meme'],
+  ['Galleta de jengibre','🍪','Película animada','Shrek','pequeno,meme'],
+  ['Stuart Little','🐭','Película / libro','Stuart Little','animal,pequeno'],
+  ['Grogu (Baby Yoda)','👶','Serie','Star Wars','verde,pequeno,magia,meme'],
+  ['Ant-Man','🐜','Cómic / película','Marvel Ant-Man','pequeno,heroe'],
+  ['Scrat','🐿️','Película animada','La era de hielo','animal,pequeno,meme'],
+  ['Groot bebé','🌱','Cómic / película','Guardianes de la Galaxia','verde,pequeno,heroe'],
+  ['Sr. Cara de Papa','🥔','Película animada','Toy Story','bigote,pequeno,meme']
+];
+const THEMES = [
+  ['verde','Ambos son verdes (o llevan el verde como sello personal).'],
+  ['amarillo','El amarillo es una parte inconfundible de los dos.'],
+  ['rojo','El rojo es parte de su imagen más reconocible.'],
+  ['azul','El azul los delata.'],
+  ['animal','Ambos tienen forma o identidad animal.'],
+  ['sombrero','Un sombrero o gorra es parte de su estilo.'],
+  ['lentes','Los dos son reconocibles por usar lentes o gafas.'],
+  ['bigote','A los dos les queda muy bien el bigote.'],
+  ['vuela','Los dos pueden volar o elevarse de forma extraordinaria.'],
+  ['robot','Los dos son robots, androides o personajes mecanizados.'],
+  ['magia','Ambos tienen relación directa con poderes mágicos o sobrenaturales.'],
+  ['espada','Los dos tienen una espada como parte de sus aventuras.'],
+  ['medicina','Ambos son conocidos por sanar, curar o cuidar la salud.'],
+  ['realeza','Ambos pertenecen a la realeza o han llevado un título real.'],
+  ['villano','Ambos han sido antagonistas o villanos en sus historias.'],
+  ['meme','Internet ha convertido a los dos en memes.'],
+  ['acuatico','Ambos tienen una relación directa con el agua o la vida marina.'],
+  ['terror','Los dos están ligados a historias de miedo o terror.'],
+  ['fuerza','Ambos destacan por tener una fuerza fuera de lo común.'],
+  ['pequeno','Ambos son personajes de tamaño pequeño o miniatura.'],
+  ['heroe','Ambos han sido protagonistas heroicos de sus historias.']
+];
+const $ = id => document.getElementById(id);
+const roster = rosterRaw.map(([name,emoji,medium,franchise,tags])=>({name,emoji,medium,franchise,tags:tags.split(',')}));
+let myRole = localStorage.getItem('azulticky-role') === 'azul' ? 'azul' : 'ticky';
+let phase = 'setup';
+let current = null;
+let countdownTimer = null;
+let toastTimer = null;
+const params = new URLSearchParams(window.location.search);
+$('room').value = (params.get('sala') || localStorage.getItem('azulticky-sala') || 'azulitos').slice(0,35);
+$('round').value = String(Math.min(99,Math.max(1,Number(params.get('ronda')) || 1)));
+function localDay(){
+  // Ambos dispositivos usan la misma fecha: Monterrey, aun si uno está en Argentina.
+  const parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/Monterrey',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const p = Object.fromEntries(parts.map(x=>[x.type,x.value]));
+  return `${p.year}-${p.month}-${p.day}`;
+}
+function niceDate(day){
+  const [y,m,d] = day.split('-').map(Number);
+  return new Intl.DateTimeFormat('es-MX',{timeZone:'UTC',day:'numeric',month:'long',year:'numeric'}).format(new Date(Date.UTC(y,m-1,d)));
+}
+function roomCode(){return ($('room').value.trim().toLocaleLowerCase('es-MX').replace(/\s+/g,'-') || 'azulitos').slice(0,35)}
+function roundNumber(){return Math.max(1,Math.min(99,Number.parseInt($('round').value,10)||1))}
+function hashString(str){let h=2166136261;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),16777619)}return h>>>0}
+function randomGenerator(seed){let a=seed>>>0;return ()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296}}
+function generate(day,room,round){
+  const rnd=randomGenerator(hashString(`AZUL-TICKY-v3|${day}|${room}|${round}`));
+  const eligible=THEMES.filter(([tag])=>roster.filter(p=>p.tags.includes(tag)).length>=7);
+  // Calendario determinista: cada característica aparece una vez por ciclo de 21 días.
+  // Ambos dispositivos reconstruyen la secuencia sin ningún servidor ni sincronización.
+  const dayIndex=Math.floor(Date.parse(`${day}T00:00:00Z`)/86400000);
+  const cycle=Math.floor(dayIndex/eligible.length);
+  const themeRng=randomGenerator(hashString(`AZUL-TICKY-TEMAS-v3|${room}|${round}|${cycle}`));
+  const shuffled=[...eligible];
+  for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(themeRng()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]]}
+  const theme=shuffled[((dayIndex%eligible.length)+eligible.length)%eligible.length];
+  const candidates=roster.filter(p=>p.tags.includes(theme[0]));
+  let best=null,bestScore=-Infinity;
+  // Probamos pares para favorecer combinaciones de universos y medios muy distintos.
+  for(let i=0;i<75;i++){
+    const first=candidates[Math.floor(rnd()*candidates.length)];
+    const second=candidates[Math.floor(rnd()*candidates.length)];
+    if(first===second || first.franchise===second.franchise)continue;
+    const differentMedium=first.medium!==second.medium;
+    const reality = p => /Persona|Mascota|Meme|Leyenda|Tradición|Figura religiosa|Animal \/ meme/i.test(p.medium);
+    const category = p => /Anime|Videojuego|Caricatura|Película|Serie|Cómic|Literatura|Persona|Mascota|Meme/i.exec(p.medium)?.[0] || p.medium;
+    const score=(differentMedium?5:0)+(category(first)!==category(second)?5:0)+(reality(first)!==reality(second)?3:0)+rnd()*8;
+    if(score>bestScore){best=[first,second];bestScore=score}
+  }
+  if(!best){best=[candidates[0],candidates.find(p=>p!==candidates[0]&&p.franchise!==candidates[0].franchise) || candidates[1]]}
+  if(rnd()<.5)best.reverse();
+  return {day,room,round,theme,first:best[0],second:best[1]};
+}
+function updateRoles(){
+  for(const [role,id] of [['ticky','chooseTicky'],['azul','chooseAzul']]){
+    $(id).dataset.selected=String(myRole===role);$(id).setAttribute('aria-pressed',String(myRole===role));
+  }
+}
+function toast(msg){clearTimeout(toastTimer);$('toast').textContent=msg;$('toast').classList.remove('hidden');toastTimer=setTimeout(()=>$('toast').classList.add('hidden'),3300)}
+function setPhase(next){
+  phase=next;
+  $('setup').classList.toggle('hidden',next!=='setup');$('game').classList.toggle('hidden',next==='setup');
+  ['ready','premise','revealed'].forEach(id=>$(id).classList.toggle('hidden',id!==next));
+  ['dot1','dot2','dot3'].forEach((id,i)=>$(id).classList.toggle('on',next!=='setup' && i<=['ready','premise','revealed'].indexOf(next)));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function prepare(){
+  const room=roomCode(),round=roundNumber(),day=localDay();
+  $('room').value=room;$('round').value=String(round);
+  localStorage.setItem('azulticky-sala',room);localStorage.setItem('azulticky-role',myRole);
+  current=generate(day,room,round);
+  $('gameMeta').textContent=`Ronda ${round} · ${niceDate(day)} · ${room}`;
+  $('promptText').textContent=current.theme[1];$('smallPrompt').textContent=current.theme[1];
+  const other = myRole==='ticky' ? current.second: current.first;
+  $('characterEmoji').textContent=other.emoji;
+  $('characterName').textContent=other.name;
+  $('characterMedium').textContent=other.medium;
+  $('toWhom').textContent=myRole==='ticky'?'LA CARTA DE AZUL':'LA CARTA DE TICKY';
+  $('guard').textContent=`🔒 La carta de ${myRole==='ticky'?'Ticky':'Azul'} no aparece en tu pantalla.`;
+  $('solutionEmojiA').textContent=current.first.emoji;$('solutionEmojiB').textContent=current.second.emoji;
+  $('solutionNameA').textContent=current.first.name;$('solutionNameB').textContent=current.second.name;
+  $('explanation').textContent=current.theme[1];$('solutions').classList.add('hidden');
+  setPhase('ready');
+}
+function countdown(){
+  if(countdownTimer)return;
+  if('speechSynthesis'in window)window.speechSynthesis.cancel();
+  const cover=$('countdown'),number=$('countValue');
+  let remaining=3;number.textContent=String(remaining);cover.classList.remove('hidden');
+  countdownTimer=setInterval(()=>{
+    remaining--;
+    if(remaining<=0){clearInterval(countdownTimer);countdownTimer=null;cover.classList.add('hidden');setPhase('revealed')}
+    else number.textContent=String(remaining);
+  },1000);
+}
+function speak(){
+  if(!current)return;
+  if(!('speechSynthesis'in window)){toast('Tu navegador no tiene voz disponible; puedes leer la premisa.');return}
+  window.speechSynthesis.cancel();
+  const msg=new SpeechSynthesisUtterance(`Atención, Azul y Ticky. La premisa es: ${current.theme[1]} ¡Prepárense para descubrir sus personajes!`);
+  msg.lang='es-MX';msg.rate=.88;msg.pitch=1.05;
+  window.speechSynthesis.speak(msg);
+  toast('Reproduciendo la premisa…');
+}
+async function copyInvite(){
+  const room=roomCode(),round=roundNumber();
+  const url=new URL(window.location.href);
+  const shareable=url.protocol==='https:'||url.protocol==='http:';
+  url.searchParams.set('sala',room);url.searchParams.set('ronda',String(round));
+  const msg=shareable?`¡Jugamos nuestro duelo de personajes! 🎩\n${url.href}\nElige tu nombre al entrar. Sala: ${room}, ronda: ${round}.`:`¡Jugamos nuestro duelo de personajes! 🎩\nSala: ${room}\nRonda: ${round}\nAmbos debemos abrir el archivo del juego en nuestros dispositivos.`;
+  try{
+    if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(msg);
+    else {const textArea=document.createElement('textarea');textArea.value=msg;document.body.appendChild(textArea);textArea.select();document.execCommand('copy');textArea.remove()}
+    toast(shareable?'¡Invitación copiada! Mándasela a tu pareja.':'¡Código y ronda copiados! Compártelos.');
+  }catch(e){toast('No se pudo copiar automáticamente. Comparte el código de sala.');}
+}
+function confirmSolutions(){
+  if($('solutions').classList.contains('hidden')){
+    if(!window.confirm('¿Ya terminaron los dos de adivinar? Aquí se revelarán AMBAS identidades.'))return;
+    $('solutions').classList.remove('hidden');$('endRound').textContent='✅ Soluciones mostradas';
+    $('solutions').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }else $('solutions').classList.add('hidden');
+}
+$('chooseTicky').addEventListener('click',()=>{myRole='ticky';updateRoles()});
+$('chooseAzul').addEventListener('click',()=>{myRole='azul';updateRoles()});
+$('play').addEventListener('click',()=>{ $('endRound').textContent='🏁 Terminamos · ver ambas cartas';prepare() });
+$('copy').addEventListener('click',copyInvite);
+$('toPrompt').addEventListener('click',()=>setPhase('premise'));
+$('speak').addEventListener('click',speak);
+$('showCard').addEventListener('click',countdown);
+$('backReady').addEventListener('click',()=>setPhase('ready'));
+$('backHome1').addEventListener('click',()=>setPhase('setup'));
+$('toHome').addEventListener('click',()=>setPhase('setup'));
+$('endRound').addEventListener('click',confirmSolutions);
+$('nextRound').addEventListener('click',()=>{
+  if(roundNumber()>=99){toast('Llegaron a 99 rondas. ¡Eso sí es dedicación!');return}
+  $('round').value=String(roundNumber()+1);$('endRound').textContent='🏁 Terminamos · ver ambas cartas';
+  prepare();toast('Avisen a la otra persona que cambie a esta misma ronda.');
+});
+updateRoles();
+$('dateBadge').textContent=`🎲 ${niceDate(localDay())}`;
+</script>
+</body>
+</html>
